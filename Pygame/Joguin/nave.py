@@ -48,8 +48,7 @@ while rodando:
         jogador_x -= velocidade
     if teclas[pygame.K_RIGHT]:
         jogador_x += velocidade
-    if teclas[pygame.K_SPACE]:
-        tela.blit(tiro,(10,10))
+    
 
     # Lógica do jogo
 
