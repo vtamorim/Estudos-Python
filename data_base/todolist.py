@@ -106,6 +106,7 @@ while True:
             break
         else:
             print("Usuário ou senha inválidos")
+            quit("Tente Novamente")
     else:
         create_login = input("Crie seu nome de usuário: ")
         create_password = input("Crie sua senha: ")
