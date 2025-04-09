@@ -1,3 +1,7 @@
+import random
+
+
+
 class Personagem():
     def __init__(self, nome):
         self.vida = 100
@@ -60,5 +64,29 @@ class Mago(Personagem):
             self.mana = 50
         if self.mana - self.requerer < 0:
             print("Sem mana suficiente para utilizar a magia")
-        if self.mana - self.requerer > 0 :
-            self.mana -= 10
+            return False
+        if self.mana>= self.requerer:
+            self.mana -= self.requerer
+            return True
+
+    def lancar_magia(self,golpe,inimigo):
+        if self.cond_mana():
+            golpe = golpe * self.podermul
+            inimigo.vida -= golpe
+
+            if inimigo.vida <= 0:
+                   inimigo.vida = 0
+                   inimigo.alive = False
+                   return f"{self.nome} Ganhou!"
+            return f"{self.nome} Aplicou um golpe no inimigo, que está com: {inimigo.vida} de vida"
+        
+class Arqueiro(Personagem):
+    def __init__(self, nome, esquiva):
+        super().__init__(nome)
+        self.esquiva = False
+        self.atack_duplo = False
+        self.vida -= self.vida * 0.08
+    def esquivar(self):
+        self.esquiva = random.randint(1,8) == 1
+        return self.esquiva
+    
