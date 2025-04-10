@@ -89,4 +89,25 @@ class Arqueiro(Personagem):
     def esquivar(self):
         self.esquiva = random.randint(1,8) == 1
         return self.esquiva
+    def duplo_atack(self):
+        self.atack_duplo = random.randint(1,16) == 1
+        return self.atack_duplo
     
+
+
+class Necromante(Personagem):
+    def __init__(self, nome):
+        super().__init__(nome)
+        self.roubar = False
+        self.sacri = False
+    def energia_vital(self,alma):
+        if alma == 0:
+            self.roubar = True
+        elif alma == 1:
+            self.sacri= True
+        else:
+            return False
+    def atack_vital(self,golpe,inimigo):
+        if self.roubar:
+            inimigo.vida -= golpe
+            self.vida += golpe
