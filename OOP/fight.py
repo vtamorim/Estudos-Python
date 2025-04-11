@@ -115,3 +115,5 @@ class Necromante(Personagem):
             self.vida += golpe//2.5
             if self.vida > 100:
                 self.vida = 100
+    def sacrificio(self,golpe,inimigo):
+        
