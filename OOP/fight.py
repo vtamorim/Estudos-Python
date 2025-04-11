@@ -101,13 +101,17 @@ class Necromante(Personagem):
         self.roubar = False
         self.sacri = False
     def energia_vital(self,alma):
-        if alma == 0:
+        if alma == "roubar":
             self.roubar = True
-        elif alma == 1:
+        elif alma == "sacrificar":
             self.sacri= True
         else:
             return False
     def atack_vital(self,golpe,inimigo):
-        if self.roubar:
+        if self.roubar and inimigo.alive:
             inimigo.vida -= golpe
-            self.vida += golpe
+            if inimigo.vida <= 0:
+                inimigo.vida = 0
+            self.vida += golpe//2.5
+            if self.vida > 100:
+                self.vida = 100
