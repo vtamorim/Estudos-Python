@@ -115,5 +115,65 @@ class Necromante(Personagem):
             self.vida += golpe//2.5
             if self.vida > 100:
                 self.vida = 100
-    def sacrificio(self,golpe,inimigo):
+
+
+class GerenciadorDeTurnos:
+    def __init__(self, jogador, inimigo):
+        self.jogador = jogador
+        self.inimigo = inimigo
+        self.turno = 1
+
+    def executar_turno(self):
+        print(f"\n--- Turno {self.turno} ---")
         
+        if self.jogador.alive:
+            print(f"{self.jogador.nome} está atacando!")
+            golpe = random.randint(10, 20)
+            self.jogador.atacar(self.inimigo, golpe)
+            print(f"{self.inimigo.nome} tem {self.inimigo.vida} de vida restante.")
+            if not self.inimigo.alive:
+                print(f"{self.jogador.nome} venceu!")
+                return False
+
+        if self.inimigo.alive:
+            print(f"{self.inimigo.nome} está atacando!")
+            golpe = random.randint(5, 15)
+            self.inimigo.atacar(self.jogador, golpe)
+            print(f"{self.jogador.nome} tem {self.jogador.vida} de vida restante.")
+            if not self.jogador.alive:
+                print(f"{self.inimigo.nome} venceu!")
+                return False
+
+        self.turno += 1
+        return True
+
+    def iniciar_jogo(self):
+        while self.jogador.alive and self.inimigo.alive:
+            if not self.executar_turno():
+                break
+
+
+if __name__ == "__main__":
+    
+
+    print("Bem-vindo ao jogo de luta!")
+
+    escolha = input("Escolha seu personagem (Guerreiro, Mago, Arqueiro, Necromante): ").strip().lower()
+    nome = input("Digite o nome do seu personagem: ").strip()
+    personagem_classes = {
+        "guerreiro": Guerreiro(nome),
+        "mago": Mago(nome, 20),
+        "arqueiro": Arqueiro(nome, 0),
+        "necromante": Necromante(nome)
+    }
+    if escolha not in personagem_classes:
+        print("Escolha inválida!")
+        exit()
+    else:
+        jogador = personagem_classes[escolha]
+        print(f"Você escolheu: {jogador.nome} ({escolha.capitalize()})")
+        print(f"Vida inicial: {jogador.vida}")
+        print(f"Mana inicial: {getattr(jogador, 'mana', 'N/A')}")
+        GerenciadorDeTurnos(jogador, Guerreiro("Inimigo")).iniciar_jogo()
+        print("Fim do jogo!")
+
