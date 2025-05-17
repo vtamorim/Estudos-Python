@@ -1,3 +1,14 @@
+class Cidade:
+    def __init__(self, nome, populacao, prefeitura):
+        self.__nome = nome
+        self.__populacao = populacao
+        self.__prefeitura = prefeitura
+    def get_nome(self):
+        return self.__nome
+    def get_populacao(self):
+        return self.__populacao
+    def get_prefeitura(self):
+        return self.__prefeitura
 
 class Pessoa:
     def __init__(self,nome,idade,ocupacao,genero,cpf):
