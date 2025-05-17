@@ -44,6 +44,23 @@ class Residencia:
     def get_tipo(self):
         return self.__tipo
     
+class Empresa:
+    def __init__(self, nome, tipo, endereco, funcionarios, vagas):
+        self.__nome = nome
+        self.__tipo = tipo
+        self.__endereco = endereco
+        self.__funcionarios = funcionarios
+        self.vagas = vagas
+    def get_nome(self):
+        return self.__nome
+    def get_endereco(self):
+        return self.__endereco
+    def get_funcionario(self):
+        return self.__funcionarios
+    def get_tipo(self):
+        return self.__tipo
+    def get_vagas(self):
+        return self.vagas
 
 
         
