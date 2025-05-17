@@ -1,3 +1,4 @@
+
 class Pessoa:
     def __init__(self,nome,idade,ocupacao,genero,cpf):
         self.__nome = nome
@@ -20,6 +21,18 @@ class Pessoa:
     def get_genero(self):
         return self.__genero
 
+class Residencia:
+    def __init__(self, endereco, morador, tipo):
+        self.__endereco = endereco
+        self.__morador = morador
+        self.__tipo = tipo
+    def get_endereco(self):
+        return self.__endereco
+    def get_morador(self):
+        return self.__morador
+    def get_tipo(self):
+        return self.__tipo
+    
 
 
         
