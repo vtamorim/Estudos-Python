@@ -1,3 +1,7 @@
+import random
+import json
+import math
+
 class Cidade:
     def __init__(self, nome, populacao, prefeitura):
         self.__nome = nome
@@ -62,5 +66,22 @@ class Empresa:
     def get_vagas(self):
         return self.vagas
 
-
-        
+class UI:
+    def __init__(self):
+        self.codition = True
+    def ui_person(self):
+        while self.codition:
+            self.nome = input("Seu Nome: ")
+            self.idade = int(input("Idade: "))
+            self.ocupacao = input("Ocupação : ")
+            self.genero = input("Gênero: ")
+            dados = {
+                "nome" : self.nome,
+                "idade" : self.idade,
+                "ocupacao" : self.ocupacao,
+                "genero" : self.genero
+            } 
+            with open("OOP/Arquivos json/pessoas.json", "w" , encoding="utf-8") as arquivo:
+                json.dump(dados,arquivo,ensure_ascii=False,indent=4)
+initt = UI()
+initt.ui_person()
