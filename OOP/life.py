@@ -68,20 +68,34 @@ class Empresa:
 
 class UI:
     def __init__(self):
-        self.codition = True
+        self.codition_person = True
+        self.codition_work = True
     def ui_person(self):
-        while self.codition:
+        while self.codition_person:
             self.nome = input("Seu Nome: ")
             self.idade = int(input("Idade: "))
             self.ocupacao = input("Ocupação : ")
             self.genero = input("Gênero: ")
-            dados = {
+            dados_person = {
                 "nome" : self.nome,
                 "idade" : self.idade,
                 "ocupacao" : self.ocupacao,
                 "genero" : self.genero
             } 
             with open("OOP/Arquivos json/pessoas.json", "w" , encoding="utf-8") as arquivo:
-                json.dump(dados,arquivo,ensure_ascii=False,indent=4)
+                json.dump(dados_person,arquivo,ensure_ascii=False,indent=4)
+    def ui_work(self):
+        while self.codition_work:
+            self.work_name = input("Nome da Empresa que Trabalha: ")
+            self.work_type = input("Tipo de Trabalho: ")
+            self.work_carg = input(f"Cargo/Ocupação no {self.work_name}: ")
+            dados_work = {
+                "nome" : self.work_name,
+                "type" : self.work_type,
+                "cargo" : self.work_carg
+            }
+            
+            with open("OOP/Arquivos json/trabalhos.json", "w" , encoding="utf-8") as arquivo:
+                json.dump(dados_work, arquivo,ensure_ascii=False, indent=4)
 initt = UI()
-initt.ui_person()
+initt.ui_work()
