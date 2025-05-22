@@ -70,6 +70,8 @@ class UI:
     def __init__(self):
         self.codition_person = True
         self.codition_work = True
+        self.codition_res = True
+        self.codition_city = True
     def ui_person(self):
         while self.codition_person:
             self.nome = input("Seu Nome: ")
@@ -97,5 +99,31 @@ class UI:
             
             with open("OOP/Arquivos json/trabalhos.json", "w" , encoding="utf-8") as arquivo:
                 json.dump(dados_work, arquivo,ensure_ascii=False, indent=4)
+    def ui_home(self):
+        while self.codition_res:
+            self.res_name = input("Nome da Residência: ")
+            self.res_type = input("Tipo de Residência: ")
+            self.res_morador = input("Morador dessa Residência: ")
+            dados_residencia = {
+                "nome" : self.res_name,
+                "type" : self.res_type,
+                "morador" : self.res_morador
+
+            }
+
+            with open("OOP/Arquivos json/residencias.json", "w", encoding="utf-8") as arquivo:
+                json.dump(dados_residencia, arquivo, ensure_ascii=False, indent=4)
+    def ui_city(self):
+        while self.codition_city:
+            self.city_name = input("Nome da Cidade: ")
+            self.city_pop = int(input("População da Cidade: "))
+            self.city_pref = input("Prefeito da Cidade: ")
+            dados_city =  {
+                "nome" : self.city_name,
+                "populacao" : self.city_pop,
+                "prefeito" : self.city_pref
+            }
+            with open("OOP/Arquivos json/cidade.json", "w", encoding="utf-8") as arquivo:
+                json.dump(dados_city, arquivo, ensure_ascii=False, indent=4)
 initt = UI()
 initt.ui_work()
