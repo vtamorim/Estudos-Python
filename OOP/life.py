@@ -91,19 +91,28 @@ class UI:
         while self.__codition_work:
             self.work_name = input("Nome da Empresa que Trabalha: ")
             self.work_type = input("Tipo de Trabalho: ")
-            self.work_carg = input(f"Cargo/Ocupação no {self.work_name}: ")
+            self.work_empresa = input(f"Endereço do {self.work_name}: ")
             dados_work = {
                 "nome" : self.work_name,
-                "type" : self.work_type,
-                "cargo" : self.work_carg
+                "tipo" : self.work_type,
+                "endereço" : self.work_empresa
             }
             
             with open("OOP/Arquivos json/trabalhos.json", "w" , encoding="utf-8") as arquivo:
                 json.dump(dados_work, arquivo,ensure_ascii=False, indent=4)
-            self.metodos_work = ["Nome","Tipo","Ocupação"]
+            self.metodos_work = ["Nome","Tipo","Endereço"]
             for i in range(len(self.metodos_work)):
                 print("[", i ,"]", self.metodos_work[i])
-            
+            escolha = input()
+            work = Empresa(self.work_name,self.work_type,self.work_empresa,"Sem Funcionários","Sem Vagas")
+            match escolha:
+                case "Nome"|"0":
+                    work.get_nome()
+                case "Tipo"|"1":
+                    work.get_tipo()
+                case "Endereço"|"2":
+                    work.get_endereco()
+
 
     def ui_home(self):
         while self.__codition_res:
@@ -138,13 +147,13 @@ class UI:
                 print("[", i ,"]", self.serv_cad[i])
             escolha = input()
             match escolha:
-                case "Cidade":
+                case "Cidade"|"0":
                     UI.ui_city()
-                case "Residencia":
+                case "Residencia"|"2":
                     UI.ui_home()
-                case "Pessoa":
+                case "Pessoa"|"1":
                     UI.ui_person()
-                case "Empresa":
+                case "Empresa"|"3":
                     UI.ui_work()
             
 initt = UI()
