@@ -87,6 +87,22 @@ class UI:
             } 
             with open("OOP/Arquivos json/pessoas.json", "w" , encoding="utf-8") as arquivo:
                 json.dump(dados_person,arquivo,ensure_ascii=False,indent=4)
+            self.metodos_person = ["Nome","Idade","Ocupação","Gênero"]
+            for i in range(len(self.metodos_person)):
+                print("[", i ,"]", self.metodos_person[i])            
+            
+            escolha = input()
+            pessoa = Pessoa(self.nome,self.idade,self.ocupacao,self.genero,"Sem CPF registrado")
+            match escolha:
+                case "Nome"|"0":
+                    pessoa.get_nome()
+                case "Idade"|"1":
+                    pessoa.get_idade()
+                case "Ocupação"|"2":
+                    pessoa.get_ocupacao()
+                case "Gênero"|"3":
+                    pessoa.get_genero
+
     def ui_work(self):
         while self.__codition_work:
             self.work_name = input("Nome da Empresa que Trabalha: ")
@@ -116,11 +132,11 @@ class UI:
 
     def ui_home(self):
         while self.__codition_res:
-            self.res_name = input("Nome da Residência: ")
+            self.res_endereco = input("Endereço da Residência: ")
             self.res_type = input("Tipo de Residência: ")
             self.res_morador = input("Morador dessa Residência: ")
             dados_residencia = {
-                "nome" : self.res_name,
+                "endereco" : self.res_endereco,
                 "type" : self.res_type,
                 "morador" : self.res_morador
 
@@ -128,6 +144,20 @@ class UI:
 
             with open("OOP/Arquivos json/residencias.json", "w", encoding="utf-8") as arquivo:
                 json.dump(dados_residencia, arquivo, ensure_ascii=False, indent=4)
+                
+            self.metodos_home = ["Morador","Tipo","Endereço"]
+            for i in range(len(self.metodos_home)):
+                print("[", i ,"]", self.metodos_home[i])            
+            
+            escolha = input()
+            home = Residencia(self.res_endereco,self.res_morador,self.res_type,"Sem Funcionários","Sem Vagas")
+            match escolha:
+                case "Morador"|"0":
+                    home.get_morador()
+                case "Tipo"|"1":
+                    home.get_tipo()
+                case "Endereço"|"2":
+                    home.get_endereco()
     def ui_city(self):
         while self.__codition_city:
             self.city_name = input("Nome da Cidade: ")
@@ -140,21 +170,39 @@ class UI:
             }
             with open("OOP/Arquivos json/cidade.json", "w", encoding="utf-8") as arquivo:
                 json.dump(dados_city, arquivo, ensure_ascii=False, indent=4)
+            self.metodos_city = ["Nome","População","Prefeito"]
+            for i in range(len(self.metodos_city)):
+                print("[", i ,"]", self.metodos_city[i])            
+            
+            escolha = input()
+            city = Cidade(self.city_name,self.city_pop,self.city_pref)
+            match escolha:
+                case "Nome"|"0":
+                    city.get_nome()
+                case "População"|"1":
+                    city.get_populacao()
+                case "Prefeito"|"2":
+                    city.get_prefeitura()
     def ui_geral(self):
         self.serv_cad = ["Cidade","Pessoa","Residencia","Empresa"]
         while self.__codition_geral:
             for i in range(len(self.serv_cad)):
                 print("[", i ,"]", self.serv_cad[i])
             escolha = input()
+            init = UI()
             match escolha:
                 case "Cidade"|"0":
-                    UI.ui_city()
+                    init.ui_city()
                 case "Residencia"|"2":
-                    UI.ui_home()
+                    init.ui_home()
                 case "Pessoa"|"1":
-                    UI.ui_person()
+                    init.ui_person()
                 case "Empresa"|"3":
-                    UI.ui_work()
-            
+                    init.ui_work()
+            sair = input("Quer sair? S/N")
+            if sair == "S":
+                self.__codition_geral == False
+            else:
+                continue 
 initt = UI()
 initt.ui_geral()
