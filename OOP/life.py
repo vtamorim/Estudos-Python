@@ -23,16 +23,12 @@ class Pessoa:
         self.__cpf = cpf
     def get_nome(self):
         return self.__nome
-    
     def get_cpf(self):
         return self.__cpf
-    
     def get_idade(self):
         return self.__idade
-    
     def get_ocupacao(self):
         return self.__ocupacao
-    
     def get_genero(self):
         return self.__genero
 
@@ -47,7 +43,7 @@ class Residencia:
         return self.__morador
     def get_tipo(self):
         return self.__tipo
-    
+
 class Empresa:
     def __init__(self, nome, tipo, endereco, funcionarios, vagas):
         self.__nome = nome
@@ -66,6 +62,16 @@ class Empresa:
     def get_vagas(self):
         return self.vagas
 
+def append_json(filepath, data):
+    try:
+        with open(filepath, "r", encoding="utf-8") as f:
+            lista = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        lista = []
+    lista.append(data)
+    with open(filepath, "w", encoding="utf-8") as f:
+        json.dump(lista, f, ensure_ascii=False, indent=4)
+
 class UI:
     def __init__(self):
         self.__codition_person = True
@@ -73,135 +79,141 @@ class UI:
         self.__codition_res = True
         self.__codition_city = True
         self.__codition_geral = True
+
     def ui_person(self):
         while self.__codition_person:
-            self.nome = input("Seu Nome: ")
-            self.idade = int(input("Idade: "))
-            self.ocupacao = input("Ocupação : ")
-            self.genero = input("Gênero: ")
+            nome = input("Seu Nome: ")
+            idade = int(input("Idade: "))
+            ocupacao = input("Ocupação : ")
+            genero = input("Gênero: ")
             dados_person = {
-                "nome" : self.nome,
-                "idade" : self.idade,
-                "ocupacao" : self.ocupacao,
-                "genero" : self.genero
-            } 
-            with open("OOP/Arquivos json/pessoas.json", "w" , encoding="utf-8") as arquivo:
-                json.dump(dados_person,arquivo,ensure_ascii=False,indent=4)
-            self.metodos_person = ["Nome","Idade","Ocupação","Gênero"]
-            for i in range(len(self.metodos_person)):
-                print("[", i ,"]", self.metodos_person[i])            
-            
-            escolha = input()
-            pessoa = Pessoa(self.nome,self.idade,self.ocupacao,self.genero,"Sem CPF registrado")
+                "nome" : nome,
+                "idade" : idade,
+                "ocupacao" : ocupacao,
+                "genero" : genero
+            }
+            append_json("OOP/Arquivos json/pessoas.json", dados_person)
+            metodos_person = ["Nome","Idade","Ocupação","Gênero"]
+            for i, metodo in enumerate(metodos_person):
+                print(f"[{i}] {metodo}")
+            escolha = input("Escolha um campo para exibir: ")
+            pessoa = Pessoa(nome, idade, ocupacao, genero, "Sem CPF registrado")
             match escolha:
                 case "Nome"|"0":
-                    pessoa.get_nome()
+                    print(pessoa.get_nome())
                 case "Idade"|"1":
-                    pessoa.get_idade()
+                    print(pessoa.get_idade())
                 case "Ocupação"|"2":
-                    pessoa.get_ocupacao()
+                    print(pessoa.get_ocupacao())
                 case "Gênero"|"3":
-                    pessoa.get_genero
+                    print(pessoa.get_genero())
+
+            sair = input("Quer sair do cadastro de pessoa? S/N: ").strip().upper()
+            if sair == "S":
+                self.__codition_person = False
 
     def ui_work(self):
         while self.__codition_work:
-            self.work_name = input("Nome da Empresa que Trabalha: ")
-            self.work_type = input("Tipo de Trabalho: ")
-            self.work_empresa = input(f"Endereço do {self.work_name}: ")
+            work_name = input("Nome da Empresa que Trabalha: ")
+            work_type = input("Tipo de Trabalho: ")
+            work_empresa = input(f"Endereço do {work_name}: ")
             dados_work = {
-                "nome" : self.work_name,
-                "tipo" : self.work_type,
-                "endereço" : self.work_empresa
+                "nome" : work_name,
+                "tipo" : work_type,
+                "endereço" : work_empresa
             }
-            
-            with open("OOP/Arquivos json/trabalhos.json", "w" , encoding="utf-8") as arquivo:
-                json.dump(dados_work, arquivo,ensure_ascii=False, indent=4)
-            self.metodos_work = ["Nome","Tipo","Endereço"]
-            for i in range(len(self.metodos_work)):
-                print("[", i ,"]", self.metodos_work[i])
-            escolha = input()
-            work = Empresa(self.work_name,self.work_type,self.work_empresa,"Sem Funcionários","Sem Vagas")
+            append_json("OOP/Arquivos json/trabalhos.json", dados_work)
+            metodos_work = ["Nome","Tipo","Endereço"]
+            for i, metodo in enumerate(metodos_work):
+                print(f"[{i}] {metodo}")
+            escolha = input("Escolha um campo para exibir: ")
+            work = Empresa(work_name, work_type, work_empresa, "Sem Funcionários", "Sem Vagas")
             match escolha:
                 case "Nome"|"0":
-                    work.get_nome()
+                    print(work.get_nome())
                 case "Tipo"|"1":
-                    work.get_tipo()
+                    print(work.get_tipo())
                 case "Endereço"|"2":
-                    work.get_endereco()
+                    print(work.get_endereco())
 
+            sair = input("Quer sair do cadastro de empresa? S/N: ").strip().upper()
+            if sair == "S":
+                self.__codition_work = False
 
     def ui_home(self):
         while self.__codition_res:
-            self.res_endereco = input("Endereço da Residência: ")
-            self.res_type = input("Tipo de Residência: ")
-            self.res_morador = input("Morador dessa Residência: ")
+            res_endereco = input("Endereço da Residência: ")
+            res_type = input("Tipo de Residência: ")
+            res_morador = input("Morador dessa Residência: ")
             dados_residencia = {
-                "endereco" : self.res_endereco,
-                "type" : self.res_type,
-                "morador" : self.res_morador
-
+                "endereco" : res_endereco,
+                "type" : res_type,
+                "morador" : res_morador
             }
-
-            with open("OOP/Arquivos json/residencias.json", "w", encoding="utf-8") as arquivo:
-                json.dump(dados_residencia, arquivo, ensure_ascii=False, indent=4)
-                
-            self.metodos_home = ["Morador","Tipo","Endereço"]
-            for i in range(len(self.metodos_home)):
-                print("[", i ,"]", self.metodos_home[i])            
-            
-            escolha = input()
-            home = Residencia(self.res_endereco,self.res_morador,self.res_type,"Sem Funcionários","Sem Vagas")
+            append_json("OOP/Arquivos json/residencias.json", dados_residencia)
+            metodos_home = ["Morador","Tipo","Endereço"]
+            for i, metodo in enumerate(metodos_home):
+                print(f"[{i}] {metodo}")
+            escolha = input("Escolha um campo para exibir: ")
+            home = Residencia(res_endereco, res_morador, res_type)
             match escolha:
                 case "Morador"|"0":
-                    home.get_morador()
+                    print(home.get_morador())
                 case "Tipo"|"1":
-                    home.get_tipo()
+                    print(home.get_tipo())
                 case "Endereço"|"2":
-                    home.get_endereco()
+                    print(home.get_endereco())
+
+            sair = input("Quer sair do cadastro de residência? S/N: ").strip().upper()
+            if sair == "S":
+                self.__codition_res = False
+
     def ui_city(self):
         while self.__codition_city:
-            self.city_name = input("Nome da Cidade: ")
-            self.city_pop = int(input("População da Cidade: "))
-            self.city_pref = input("Prefeito da Cidade: ")
+            city_name = input("Nome da Cidade: ")
+            city_pop = int(input("População da Cidade: "))
+            city_pref = input("Prefeito da Cidade: ")
             dados_city =  {
-                "nome" : self.city_name,
-                "populacao" : self.city_pop,
-                "prefeito" : self.city_pref
+                "nome" : city_name,
+                "populacao" : city_pop,
+                "prefeito" : city_pref
             }
-            with open("OOP/Arquivos json/cidade.json", "w", encoding="utf-8") as arquivo:
-                json.dump(dados_city, arquivo, ensure_ascii=False, indent=4)
-            self.metodos_city = ["Nome","População","Prefeito"]
-            for i in range(len(self.metodos_city)):
-                print("[", i ,"]", self.metodos_city[i])            
-            
-            escolha = input()
-            city = Cidade(self.city_name,self.city_pop,self.city_pref)
+            append_json("OOP/Arquivos json/cidade.json", dados_city)
+            metodos_city = ["Nome","População","Prefeito"]
+            for i, metodo in enumerate(metodos_city):
+                print(f"[{i}] {metodo}")
+            escolha = input("Escolha um campo para exibir: ")
+            city = Cidade(city_name, city_pop, city_pref)
             match escolha:
                 case "Nome"|"0":
-                    city.get_nome()
+                    print(city.get_nome())
                 case "População"|"1":
-                    city.get_populacao()
+                    print(city.get_populacao())
                 case "Prefeito"|"2":
-                    city.get_prefeitura()
+                    print(city.get_prefeitura())
+
+            sair = input("Quer sair do cadastro de cidade? S/N: ").strip().upper()
+            if sair == "S":
+                self.__codition_city = False
+
     def ui_geral(self):
-        self.serv_cad = ["Cidade","Pessoa","Residencia","Empresa"]
+        serv_cad = ["Cidade","Pessoa","Residencia","Empresa"]
         while self.__codition_geral:
-            for i in range(len(self.serv_cad)):
-                print("[", i ,"]", self.serv_cad[i])
-            escolha = input()
-            init = UI()
+            for i, serv in enumerate(serv_cad):
+                print(f"[{i}] {serv}")
+            escolha = input("Escolha uma opção: ")
             match escolha:
                 case "Cidade"|"0":
-                    init.ui_city()
+                    self.ui_city()
                 case "Residencia"|"2":
-                    init.ui_home()
+                    self.ui_home()
                 case "Pessoa"|"1":
-                    init.ui_person()
+                    self.ui_person()
                 case "Empresa"|"3":
-                    init.ui_work()
-            sair = input("Quer sair? S/N")
+                    self.ui_work()
+            sair = input("Quer sair do sistema geral? S/N: ").strip().upper()
             if sair == "S":
-                self.__codition_geral == False
+                self.__codition_geral = False
             else:
                 continue 
 initt = UI()
