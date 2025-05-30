@@ -82,6 +82,14 @@ class UI:
 
     def ui_person(self):
         while self.__codition_person:
+            entrada = input("Quer ler '-' ")
+            if entrada == "s":
+                with open("OOP/Arquivos json/pessoas.json","r",encoding="utf-8") as arquivo:
+                    dados = json.load(arquivo)
+
+
+                for jombson in dados:
+                    print(jombson["nome"])
             nome = input("Seu Nome: ")
             idade = int(input("Idade: "))
             ocupacao = input("Ocupação : ")
