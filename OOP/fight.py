@@ -9,6 +9,12 @@ class Personagem():
         self.alive = True
         self.ataque = False
         self.defesa = False
+        self.ataques = []
+        self.defesas = []
+    def get_ataques(self):
+        return ''.join(self.ataques)
+    def get_defesas(self):
+        return ''.join(self.defesas)
     def atacar(self,inimigo,golpe):
         if inimigo.alive:
             inimigo.vida -= golpe
@@ -34,9 +40,12 @@ class Guerreiro(Personagem):
         super().__init__(nome)
         self.vida_extra = 10
         self.vida = self.vida + self.vida_extra
-        
-
-
+        self.ataques =  ["Golpe Poderoso", "Ataque Giratório", "Corte Feroz"]
+        self.defesas = ["Bloqueio de Escudo", "Postura Defensiva", "Contra-ataque"]
+    def get_ataques(self):
+        return ''.join(self.ataques)
+    def get_defesas(self):
+        return ''.join(self.defesas)
 
     def ataque_especial(self, inimigo, golpe):
         golpe = golpe * self.potencializador
@@ -61,6 +70,12 @@ class Mago(Personagem):
         self.mana = 100
         self.podermul = 1.2
         self.requerer = requerer
+        self.ataques = ["Bola de Fogo", "Meteoro das Trevas", "Queda do Trovão"]
+        self.defesas = ["Escudo Mágico", "Barreira Arcana", "Reflexão Mágica"]
+    def get_ataques(self):
+        return ''.join(self.ataques)
+    def get_defesas(self):
+        return ''.join(self.defesas)
     def cond_mana(self):
 
         if self.mana == 0:
@@ -89,6 +104,12 @@ class Arqueiro(Personagem):
         self.esquiva = False
         self.atack_duplo = False
         self.vida -= self.vida * 0.08
+        self.ataques = ["Tiro Preciso", "Disparo Rápido", "Flecha Explosiva"]
+        self.defesas = ["Esquiva Ágil", "Reflexo Rápido", "Fuga do Arco"]
+    def get_ataques(self):
+        return ''.join(self.ataques)
+    def get_defesas(self):
+        return ''.join(self.defesas)
     def esquivar(self):
         self.esquiva = random.randint(1,8) == 1
         return self.esquiva
@@ -103,6 +124,12 @@ class Necromante(Personagem):
         super().__init__(nome)
         self.roubar = False
         self.sacri = False
+        self.ataques = ["Toque da Morte", "Ritual Sombrio", "Chama da Alma"]
+        self.defesas = ["Escudo de Ossos", "Barreira Sombria", "Aura de Morte"]
+    def get_ataques(self):
+        return ''.join(self.ataques)
+    def get_defesas(self):
+        return ''.join(self.defesas)
     def energia_vital(self,alma):
         if alma == "roubar":
             self.roubar = True
@@ -131,8 +158,8 @@ class GerenciadorDeTurnos:
         
         if self.jogador.alive:
             print(f"{self.jogador.nome} está atacando!")
-
             golpe = random.randint(10, 20)
+            escolha_ataque = input(f"Escolha um ataque: {self.jogador.get_ataques()} ").strip().lower()
             self.jogador.atacar(self.inimigo, golpe)
             print(f"{self.inimigo.nome} tem {self.inimigo.vida} de vida restante.")
             if not self.inimigo.alive:
