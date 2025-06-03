@@ -224,5 +224,7 @@ class UI:
                 self.__codition_geral = False
             else:
                 continue 
-initt = UI()
-initt.ui_geral()
+if __name__ == "__main__":    
+
+    initt = UI()
+    initt.ui_geral()

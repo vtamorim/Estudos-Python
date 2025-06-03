@@ -43,9 +43,9 @@ class Guerreiro(Personagem):
         self.ataques =  ["Golpe Poderoso", "Ataque Giratório", "Corte Feroz"]
         self.defesas = ["Bloqueio de Escudo", "Postura Defensiva", "Contra-ataque"]
     def get_ataques(self):
-        return ''.join(self.ataques)
+        return '|\n|'.join(self.ataques)
     def get_defesas(self):
-        return ''.join(self.defesas)
+        return '|\n|'.join(self.defesas)
 
     def ataque_especial(self, inimigo, golpe):
         golpe = golpe * self.potencializador
@@ -73,9 +73,9 @@ class Mago(Personagem):
         self.ataques = ["Bola de Fogo", "Meteoro das Trevas", "Queda do Trovão"]
         self.defesas = ["Escudo Mágico", "Barreira Arcana", "Reflexão Mágica"]
     def get_ataques(self):
-        return ''.join(self.ataques)
+        return '|\n|'.join(self.ataques)
     def get_defesas(self):
-        return ''.join(self.defesas)
+        return '|\n|'.join(self.defesas)
     def cond_mana(self):
 
         if self.mana == 0:
@@ -107,9 +107,9 @@ class Arqueiro(Personagem):
         self.ataques = ["Tiro Preciso", "Disparo Rápido", "Flecha Explosiva"]
         self.defesas = ["Esquiva Ágil", "Reflexo Rápido", "Fuga do Arco"]
     def get_ataques(self):
-        return ''.join(self.ataques)
+        return '|\n|'.join(self.ataques)
     def get_defesas(self):
-        return ''.join(self.defesas)
+        return '|\n|'.join(self.defesas)
     def esquivar(self):
         self.esquiva = random.randint(1,8) == 1
         return self.esquiva
@@ -127,9 +127,9 @@ class Necromante(Personagem):
         self.ataques = ["Toque da Morte", "Ritual Sombrio", "Chama da Alma"]
         self.defesas = ["Escudo de Ossos", "Barreira Sombria", "Aura de Morte"]
     def get_ataques(self):
-        return ''.join(self.ataques)
+        return '|\n|'.join(self.ataques)
     def get_defesas(self):
-        return ''.join(self.defesas)
+        return '|\n|'.join(self.defesas)
     def energia_vital(self,alma):
         if alma == "roubar":
             self.roubar = True
@@ -159,7 +159,40 @@ class GerenciadorDeTurnos:
         if self.jogador.alive:
             print(f"{self.jogador.nome} está atacando!")
             golpe = random.randint(10, 20)
-            escolha_ataque = input(f"Escolha um ataque: {self.jogador.get_ataques()} ").strip().lower()
+            escolha_ataque = input(f"Escolha um ataque:\n|{self.jogador.get_ataques()}|\n").strip().lower()
+            print(f"Você escolheu: {escolha_ataque}")
+            try:
+                golpe = self.jogador.ataques.index(escolha_ataque) + golpe
+            except ValueError:
+                print("Ataque inválido! Usando golpe padrão.")
+                golpe = random.randint(10, 20)
+            if self.jogador.duplo_atack():
+                print(f"{self.jogador.nome} executou um ataque duplo!")
+                golpe *= 2
+            if self.jogador.esquivar():
+                print(f"{self.jogador.nome} conseguiu esquivar do ataque!")
+                return True
+            if isinstance(self.jogador, Mago):
+                mana_requerida = 20
+                if self.jogador.cond_mana():
+                    resultado = self.jogador.lancar_magia(golpe, self.inimigo)
+                    print(resultado)
+                    if not self.inimigo.alive:
+                        return False
+                else:
+                    print("Mana insuficiente para lançar magia.")
+                    return True
+            elif isinstance(self.jogador, Necromante):
+                alma = input("Você quer roubar ou sacrificar a energia vital do inimigo? (roubar/sacrificar): ").strip().lower()
+                self.jogador.energia_vital(alma)
+                if alma == "roubar":
+                    self.jogador.atack_vital(golpe, self.inimigo)
+                    print(f"{self.jogador.nome} roubou energia vital! Vida atual: {self.jogador.vida}")
+                elif alma == "sacrificar":
+                    self.jogador.atack_vital(golpe, self.inimigo)
+                    print(f"{self.jogador.nome} sacrificou energia vital! Vida atual: {self.jogador.vida}")
+            else:
+                golpe += random.randint(0, 5)
             self.jogador.atacar(self.inimigo, golpe)
             print(f"{self.inimigo.nome} tem {self.inimigo.vida} de vida restante.")
             if not self.inimigo.alive:
