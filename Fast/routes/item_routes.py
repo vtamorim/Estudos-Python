@@ -1,17 +1,17 @@
 from fastapi import APIRouter
-from models.item import Item
+from models.aluno import Aluno
 
-router = APIRouter(prefix="/items", tags=["Items"])
+router = APIRouter(prefix="/alunos", tags=["alunos"])
 
-items = []
-@router.post("/items/{item_id}")
-async def create_item(item_id: int, item: Item):
+alunos = []
+@router.post("/alunos/{aluno_id}")
+async def create_aluno(aluno_id: int, aluno: Aluno):
     pass
 
-@router.get("/items")
-async def list_items():
+@router.get("/alunos")
+async def list_alunos():
     pass
 
-@router.get("/items/{item_id}")
-async def get_item(item_id: int):
+@router.get("/alunos/{aluno_id}")
+async def get_aluno(aluno_id: int):
     pass
